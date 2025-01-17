@@ -3,7 +3,7 @@ name: Extract mrepol.zip
 on:
   push:
     paths:
-      - "mrepol.zip" # Trigger the action when mrepol.zip is updated
+      - "mrepol.zip"
 
 jobs:
   unzip:
@@ -17,12 +17,15 @@ jobs:
       run: sudo apt-get install -y unzip
 
     - name: Extract ZIP File
-      run: unzip mrepol.zip -d extracted-files
+      run: unzip mrepol.zip -d .
+
+    - name: Show Extracted Files
+      run: ls -R
 
     - name: Commit and Push Extracted Files
       run: |
         git config --global user.name "GitHub Actions Bot"
         git config --global user.email "actions@github.com"
-        git add extracted-files/
-        git commit -m "Extracted mrepol.zip contents"
+        git add .
+        git commit -m "Extracted contents of mrepol.zip"
         git push

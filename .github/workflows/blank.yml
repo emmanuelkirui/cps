@@ -1,0 +1,36 @@
+name: Extract mrepol.zip
+
+on:
+  push:
+    paths:
+      - "mrepol.zip"
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Step 2: Install unzip utility
+      - name: Install Unzip Utility
+        run: sudo apt-get update && sudo apt-get install -y unzip
+
+      # Step 3: Extract ZIP file
+      - name: Extract mrepol.zip
+        run: unzip mrepol.zip -d .
+
+      # Step 4: Show files (for debugging)
+      - name: Show Extracted Files
+        run: ls -R
+
+      # Step 5: Commit and push changes
+      - name: Commit and Push Extracted Files
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "Extracted contents of mrepol.zip"
+          git push
